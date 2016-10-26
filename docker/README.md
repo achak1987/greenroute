@@ -1,9 +1,12 @@
 # greenroute docker image installation
 #Build image 
-docker build -t ubuntu.greenroute:14.04 -f greenroute.setup .
+docker build -t ubuntu.greenroute:14.04 -f greenroute.setup
+
+#Create a network 
+docker network create --subnet=172.18.0.0/16 greenroute.net
 
 #Run
-docker run -d -P --name greenroute ubuntu.greenroute:14.04
+docker run  -d -P --net greenroute.net --ip 172.18.0.x --name greenroute ubuntu.greenroute:14.04
 
 #To check the port for ssh
 docker port greenroute 22
