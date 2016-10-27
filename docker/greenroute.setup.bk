@@ -12,9 +12,7 @@ ARG AMBARI_HOME=/home/${USER}/ambari
 
 #Install dependencies
 RUN apt-get update && \
-      apt-get -y install sudo wget nano tar openssh-server sshpass ntp ntpdate
-
-RUN service ntp start
+      apt-get -y install sudo wget nano tar openssh-server sshpass
 
 #Create user
 RUN useradd -s /bin/bash -m ${USER} && echo "${USER}:${PASS}" | chpasswd && adduser ${USER} sudo 
