@@ -20,11 +20,17 @@ Smart City Data Solution for Stavanger
         Enter advanced database configuration [y/n] (n)? n
   
   Start Ambari Server
+  
     sudo ambari-server start
+    
 #Create Passwordless ssh for all machines, including self
+
   run the following only on the master node
+  
     ssh-keygen
+    
   run the following for all agent nodes (from the scripts folder). 
+  
       ./passwordlessSSH.sh target.ip.hostname target.password
 
 #Install Ambari Agents
