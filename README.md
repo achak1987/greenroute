@@ -1,11 +1,17 @@
 # greenroute
 Smart City Data Solution for Stavanger
+
 #Create and deploy docker containers for each host. Note their IPs
+
 #Install Ambari
+
   SSH into the Ambari master node
+  
     ssh greenroute@ip.address
+    
   Run the following for Ambari Setup
     sudo ambari-server setup
+    
       Choose the following as input for the setup options
         Customize user account for ambari-server daemon [y/n] (n)? n
         Checking JDK...
