@@ -34,6 +34,7 @@ Smart City Data Solution for Stavanger
       ./passwordlessSSH.sh target.ip.hostname target.password
 
 #Install Ambari Agents
+
   run the following for all agent nodes (from the scripts folder). Install the agent on the computer running the Ambari master, if you want to add it to the cluster as well
     ./installAmbariAgents.sh master.ip.hostname target.ip.hostname target.password
 
