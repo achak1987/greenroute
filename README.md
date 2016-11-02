@@ -44,17 +44,15 @@ login using user: admin, pass: admin to set the cluster and services (HDFS; HBAS
 Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
 
 #OpenTSDB
+  Log into ambari master web. Stop all services
 
-Log into ambari master web. Stop all services
-SSH into ambari master
+  SSH into ambari master
+  run the following:
 
-run the following:
+    VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
+    sudo git clone https://github.com/hortonworks-gallery/ambari-opentsdb-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/OPENTSDB
+    ambari-server restart
 
-VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
-sudo git clone https://github.com/hortonworks-gallery/ambari-opentsdb-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/OPENTSDB
-ambari-server restart
-
-Log into ambari master web
-Start all services
-Go to addservices and deploy OPENTSDB
-
+  Log into ambari master web
+  Start all services
+  Go to Add Services and deploy OPENTSDB
