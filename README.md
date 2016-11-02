@@ -52,7 +52,7 @@ Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
 
     VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
     sudo git clone https://github.com/hortonworks-gallery/ambari-opentsdb-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/OPENTSDB
-    ambari-server restart
+    sudo ambari-server restart
 
   Log into ambari master web
   
