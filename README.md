@@ -45,8 +45,7 @@ Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
 
 #OpenTSDB
 
-  Log into ambari master web. Stop all services
-
+  Log into ambari master web. 
   SSH into ambari master
   run the following:
 
@@ -54,8 +53,11 @@ Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
     sudo git clone https://github.com/hortonworks-gallery/ambari-opentsdb-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/OPENTSDB
     sudo ambari-server restart
 
-  Log into ambari master web
+  Log into ambari master web and wait for all the services to register their heartbeat
   
-  Start all services
+  Go to Add Services and deploy OPENTSDB. While deploying when navigating to the "Customized Services" section  
   
-  Go to Add Services and deploy OPENTSDB
+  choose Add Property. Specify the following:
+  
+    Key: JAVA_HOME
+    Value: /home/greenroute/java
