@@ -41,3 +41,20 @@ Smart City Data Solution for Stavanger
 #Now go to ambari.master.ip:8080,  
 
 login using user: admin, pass: admin to set the cluster and services (HDFS; HBASE, SPARK)
+Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
+
+#OpenTSDB
+
+Log into ambari master web. Stop all services
+SSH into ambari master
+
+run the following:
+
+VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
+sudo git clone https://github.com/hortonworks-gallery/ambari-opentsdb-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/OPENTSDB
+ambari-server restart
+
+Log into ambari master web
+Start all services
+Go to addservices and deploy OPENTSDB
+
