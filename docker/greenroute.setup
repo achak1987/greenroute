@@ -5,39 +5,26 @@ MAINTAINER Antorweep Chakravorty <chakravorty.antorweep@gmail.com>
 ARG USER=greenroute
 ARG PASS=grEEnroute
 
-#JAVA_HOME directory
-ARG JAVA_HOME=/home/${USER}/java
 #Ambari directory
 ARG AMBARI_HOME=/home/${USER}/ambari
 
 #Install dependencies
 RUN apt-get update && \
-      apt-get -y install sudo wget nano tar openssh-server sshpass ntp ntpdate
-
-RUN service ntp start
-
-#Create user
-RUN useradd -s /bin/bash -m ${USER} && echo "${USER}:${PASS}" | chpasswd && adduser ${USER} sudo 
+      apt-get -y install sudo wget nano tar openssh-server sshpass ntp ntpdate git build-essential libtool shtool autogen
 
 #Purge any openjdk installation
 RUN apt-get autoremove -y openjdk*
 RUN apt-get purge -y openjdk*
+#Install ORACLE JAVA 8
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get update
+RUN echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+RUN apt-get -y install oracle-java8-installer 
 
-#Download Oracle JAVA
-RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-	http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz \
-	-O /home/${USER}/oracle-java.tar.gz
-
-#Create the JAVA_HOME directory, untar and place content
-RUN mkdir ${JAVA_HOME} \
-	&& tar -zxvf /home/${USER}/oracle-java.tar.gz \
-	-C ${JAVA_HOME} --strip-components 1
-
-RUN rm /home/${USER}/oracle-java.tar.gz
-
-#Export JAVA_HOME Path
-RUN echo "export JAVA_HOME=${JAVA_HOME}" >> /home/${USER}/.profile && \
-	echo "export PATH=$PATH:${JAVA_HOME}/bin" >> /home/${USER}/.profile
+#Create user
+RUN useradd -s /bin/bash -m ${USER} && echo "${USER}:${PASS}" | chpasswd && adduser ${USER} sudo 
 
 #Ambari Setup
 RUN wget -nv http://public-repo-1.hortonworks.com/ambari/ubuntu14/2.x/updates/2.1.2/ambari.list -O /etc/apt/sources.list.d/ambari.list
@@ -59,5 +46,7 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+EXPOSE 22 
+#CMD ["/usr/sbin/sshd", "-D"]
+#Run the NTP time service and the ssh service
+CMD bash -c ' (ntpd &);/usr/sbin/sshd -D'

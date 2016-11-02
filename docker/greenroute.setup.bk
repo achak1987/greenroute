@@ -12,14 +12,16 @@ ARG AMBARI_HOME=/home/${USER}/ambari
 
 #Install dependencies
 RUN apt-get update && \
-      apt-get -y install sudo wget nano tar openssh-server sshpass
-
-#Create user
-RUN useradd -s /bin/bash -m ${USER} && echo "${USER}:${PASS}" | chpasswd && adduser ${USER} sudo 
+      apt-get -y install sudo
 
 #Purge any openjdk installation
 RUN apt-get autoremove -y openjdk*
 RUN apt-get purge -y openjdk*
+
+#Create user
+RUN useradd -s /bin/bash -m ${USER} && echo "${USER}:${PASS}" | chpasswd && adduser ${USER} sudo 
+
+RUN apt-get -y install wget nano tar openssh-server sshpass ntp ntpdate git
 
 #Download Oracle JAVA
 RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -57,5 +59,7 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+EXPOSE 22 
+#CMD ["/usr/sbin/sshd", "-D"]
+#Run the NTP time service and the ssh service
+CMD bash -c ' (ntpd &);/usr/sbin/sshd -D'
