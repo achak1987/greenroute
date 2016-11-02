@@ -44,6 +44,7 @@ login using user: admin, pass: admin to set the cluster and services (HDFS; HBAS
 Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
 
 #OpenTSDB
+
   Log into ambari master web. Stop all services
 
   SSH into ambari master
@@ -54,5 +55,7 @@ Deploy HDFS, HBASE, MapReduce/Yarn, Zookeeper.
     ambari-server restart
 
   Log into ambari master web
+  
   Start all services
+  
   Go to Add Services and deploy OPENTSDB
