@@ -29,3 +29,5 @@ The following param could also be used to limit the # of cpus and ram
 For more details check: https://docs.docker.com/engine/reference/run/
 
 This is a good post for Resource management for docker containers (bit old): https://goldmann.pl/blog/2014/09/11/resource-management-in-docker/
+
+CHECK http://kubernetes.io/ FOR DOCKER CONTAINER MANAGEMENT
